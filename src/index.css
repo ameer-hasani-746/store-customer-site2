@@ -4,7 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   --accent-primary: #6366f1;
   --accent-secondary: #8b5cf6;
@@ -79,4 +78,21 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+
+/* RTL/LTR Helpers */
+.ltr-only {
+  display: block;
+}
+
+[dir="rtl"] .ltr-only {
+  display: none;
+}
+
+.rtl-only {
+  display: none;
+}
+
+[dir="rtl"] .rtl-only {
+  display: block;
 }

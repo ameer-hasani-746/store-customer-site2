@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import ProductCard from '../components/ProductCard';
@@ -97,8 +96,7 @@ const HomePage = () => {
             {/* Hero Section - Pro Redesign */}
             <section className="relative min-h-[75vh] flex items-center overflow-hidden pt-12 md:pt-20">
                 {/* Background Decoration */}
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-indigo-500/10 to-transparent -z-10 ltr-only" />
-                <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-indigo-500/10 to-transparent -z-10 rtl-only" />
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-indigo-500/10 to-transparent -z-10" />
                 <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -z-10" />
 
                 <div className="max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

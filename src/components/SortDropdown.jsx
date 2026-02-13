@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronDown, BarChart3, Clock, ArrowDownWideArrow, ArrowUpNarrowWide } from 'lucide-react';
+import { ChevronDown, BarChart, Clock, ArrowDown, ArrowUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -10,8 +10,8 @@ const SortDropdown = ({ sortBy, setSortBy }) => {
 
     const options = [
         { id: 'Newest', label: t('newest'), icon: <Clock size={16} /> },
-        { id: 'Price: Low to High', label: t('priceLowToHigh'), icon: <ArrowDownWideArrow size={16} /> },
-        { id: 'Price: High to Low', label: t('priceHighToLow'), icon: <ArrowUpNarrowWide size={16} /> }
+        { id: 'Price: Low to High', label: t('priceLowToHigh'), icon: <ArrowDown size={16} /> },
+        { id: 'Price: High to Low', label: t('priceHighToLow'), icon: <ArrowUp size={16} /> }
     ];
 
     const currentOption = options.find(opt => opt.id === sortBy) || options[0];
@@ -33,7 +33,7 @@ const SortDropdown = ({ sortBy, setSortBy }) => {
                 className="flex items-center gap-3 px-6 py-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl hover:border-indigo-500/50 transition-all min-w-[240px] text-[var(--text-primary)] shadow-sm"
             >
                 <div className="text-indigo-400">
-                    <BarChart3 size={20} />
+                    <BarChart size={20} />
                 </div>
                 <span className={`flex-1 text-sm font-bold ${lang === 'ar' ? 'text-right' : 'text-left'}`}>
                     {currentOption.label}
@@ -63,8 +63,8 @@ const SortDropdown = ({ sortBy, setSortBy }) => {
                                         setIsOpen(false);
                                     }}
                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${sortBy === option.id
-                                            ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20'
-                                            : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'
+                                        ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20'
+                                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'
                                         }`}
                                 >
                                     <span className={sortBy === option.id ? 'text-white' : 'text-indigo-400'}>
