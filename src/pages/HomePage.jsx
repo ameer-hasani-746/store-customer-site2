@@ -170,7 +170,7 @@ const HomePage = () => {
                 <FeaturesBar />
 
                 {/* Visual Categories */}
-                <section className="py-12">
+                <section id="categories" className="py-12">
                     <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
                         {categories.map((cat) => (
                             <button
@@ -210,7 +210,7 @@ const HomePage = () => {
 
                 {/* Product Sliders */}
                 {selectedCategory === 'All' && !searchQuery && (
-                    <div className="space-y-16">
+                    <div id="new-arrivals" className="space-y-16">
                         <ProductSlider
                             title={lang === 'ar' ? 'وصلنا حديثاً' : 'New Arrivals'}
                             products={newArrivals}
@@ -234,7 +234,7 @@ const HomePage = () => {
                 )}
 
                 {/* Main Product Grid */}
-                <div className="py-12">
+                <div id="all-products" className="py-12">
                     <div className="flex items-center justify-between mb-8">
                         <h2 className="text-3xl font-display font-bold text-[var(--text-primary)]">
                             {searchQuery || selectedCategory !== 'All'
