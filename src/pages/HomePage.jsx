@@ -58,6 +58,9 @@ const HomePage = () => {
             return new Date(b.created_at) - new Date(a.created_at);
         });
 
+    const featuredProducts = products.filter(p => p.status === 'Available').slice(0, 8);
+    const newArrivals = products.slice(0, 6);
+
     const heroImages = [
         {
             url: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=800",
