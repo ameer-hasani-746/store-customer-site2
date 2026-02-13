@@ -6,7 +6,7 @@ import ProductSlider from '../components/ProductSlider';
 import FeaturesBar from '../components/FeaturesBar';
 import PromoBanner from '../components/PromoBanner';
 import SortDropdown from '../components/SortDropdown';
-import { Search, Loader2, ArrowRight, LayoutGrid, Cpu, Smartphone, Sparkles, ShoppingBasket, Armchair, Shirt, Home, MoreHorizontal } from 'lucide-react';
+import { Search, Loader2, ArrowRight, LayoutGrid, Cpu, Sparkles, ShoppingBasket, Armchair, Shirt, Home, MoreHorizontal } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -63,7 +63,6 @@ const HomePage = () => {
             return new Date(b.created_at) - new Date(a.created_at);
         });
 
-    const featuredProducts = products.filter(p => p.status === 'Available').slice(0, 8);
     const newArrivals = products.slice(0, 6);
 
     const heroImages = [
