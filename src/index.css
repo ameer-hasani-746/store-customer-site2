@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -13,6 +13,12 @@
   --warning: #f59e0b;
   --font-main: 'Inter', sans-serif;
   --font-display: 'Outfit', sans-serif;
+  --font-arabic: 'Alexandria', sans-serif;
+}
+
+[lang="ar"] {
+  --font-main: 'Alexandria', sans-serif;
+  --font-display: 'Alexandria', sans-serif;
 }
 
 .dark {
