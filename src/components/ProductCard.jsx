@@ -4,8 +4,10 @@ import { motion } from 'framer-motion';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const ProductCard = ({ product }) => {
+    const { t, lang } = useLanguage();
     const isAvailable = product.status === 'Available';
     const { addToCart } = useCart();
 
@@ -34,7 +36,7 @@ const ProductCard = ({ product }) => {
                             ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
                             : 'bg-red-500/10 text-red-500 border border-red-500/20'
                             }`}>
-                            {product.status}
+                            {isAvailable ? t('inStock') : t('outOfStock')}
                         </span>
                     </div>
                 </div>
@@ -54,8 +56,8 @@ const ProductCard = ({ product }) => {
                 </div>
 
                 <div className="flex items-center justify-between mt-auto">
-                    <div className="flex flex-col">
-                        <span className="text-xs text-[var(--text-muted)] font-medium uppercase tracking-wider">Price</span>
+                    <div className={`flex flex-col ${lang === 'ar' ? 'items-end' : 'items-start'}`}>
+                        <span className="text-xs text-[var(--text-muted)] font-medium uppercase tracking-wider">{t('priceLabel')}</span>
                         <span className="text-xl font-bold text-[var(--text-primary)]">
                             <span className="text-indigo-400 text-sm align-top mr-0.5">$</span>
                             {price.toFixed(2)}

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Minus, Plus, ShoppingBag, ArrowRight, CheckCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const CartDrawer = () => {
+    const { lang, t } = useLanguage();
     const { cart, removeFromCart, updateQuantity, subtotal, isDrawerOpen, setIsDrawerOpen, clearCart } = useCart();
     const [isCheckingOut, setIsCheckingOut] = useState(false);
     const [checkoutSuccess, setCheckoutSuccess] = useState(false);
@@ -37,18 +39,18 @@ const CartDrawer = () => {
 
                     {/* Drawer */}
                     <motion.div
-                        initial={{ x: '100%' }}
+                        initial={{ x: lang === 'ar' ? '-100%' : '100%' }}
                         animate={{ x: 0 }}
-                        exit={{ x: '100%' }}
+                        exit={{ x: lang === 'ar' ? '-100%' : '100%' }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        className="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-[var(--bg-secondary)] border-l border-[var(--border-color)] shadow-2xl z-50 flex flex-col transition-colors duration-300"
+                        className={`fixed top-0 ${lang === 'ar' ? 'left-0 border-r' : 'right-0 border-l'} h-full w-full sm:w-[400px] bg-[var(--bg-secondary)] border-[var(--border-color)] shadow-2xl z-50 flex flex-col transition-colors duration-300`}
                     >
                         {/* Header */}
                         <div className="p-6 border-b border-[var(--border-color)] flex items-center justify-between">
                             <h2 className="text-xl font-display font-bold text-[var(--text-primary)] flex items-center gap-2">
                                 <ShoppingBag className="text-indigo-400" />
-                                Your Bag
-                                <span className="text-sm font-normal text-[var(--text-secondary)] ml-2">({cart.length} items)</span>
+                                {t('yourBag')}
+                                <span className={`text-sm font-normal text-[var(--text-secondary)] ${lang === 'ar' ? 'mr-2' : 'ml-2'}`}>({cart.length} {t('items')})</span>
                             </h2>
                             <button
                                 onClick={() => setIsDrawerOpen(false)}
@@ -69,18 +71,18 @@ const CartDrawer = () => {
                                     >
                                         <CheckCircle size={40} />
                                     </motion.div>
-                                    <h3 className="text-2xl font-bold text-[var(--text-primary)]">Order Confirmed!</h3>
-                                    <p className="text-[var(--text-secondary)]">Thank you for your purchase. Your order is being processed.</p>
+                                    <h3 className="text-2xl font-bold text-[var(--text-primary)]">{t('orderConfirmed')}</h3>
+                                    <p className="text-[var(--text-secondary)]">{t('orderConfirmedDesc')}</p>
                                 </div>
                             ) : cart.length === 0 ? (
                                 <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-50">
                                     <ShoppingBag size={48} className="text-[var(--text-muted)]" />
-                                    <p className="text-lg text-[var(--text-primary)]">Your bag is empty</p>
+                                    <p className="text-lg text-[var(--text-primary)]">{t('emptyCart')}</p>
                                     <button
                                         onClick={() => setIsDrawerOpen(false)}
                                         className="text-indigo-400 hover:text-indigo-300 text-sm font-medium"
                                     >
-                                        Start Shopping
+                                        {t('startShopping')}
                                     </button>
                                 </div>
                             ) : (
@@ -128,7 +130,7 @@ const CartDrawer = () => {
                         {!checkoutSuccess && cart.length > 0 && (
                             <div className="p-6 border-t border-[var(--border-color)] bg-[var(--bg-secondary)]">
                                 <div className="flex items-center justify-between mb-4">
-                                    <span className="text-[var(--text-secondary)]">Subtotal</span>
+                                    <span className="text-[var(--text-secondary)]">{t('subtotal')}</span>
                                     <span className="text-2xl font-bold text-[var(--text-primary)]">${subtotal.toFixed(2)}</span>
                                 </div>
                                 <button
@@ -139,12 +141,12 @@ const CartDrawer = () => {
                                     {isCheckingOut ? (
                                         <>
                                             <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                            Processing...
+                                            {t('processing')}
                                         </>
                                     ) : (
                                         <>
-                                            Checkout Now
-                                            <ArrowRight size={18} />
+                                            {t('checkoutNow')}
+                                            <ArrowRight size={18} className={lang === 'ar' ? 'rotate-180' : ''} />
                                         </>
                                     )}
                                 </button>

@@ -4,8 +4,10 @@ import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { ArrowLeft, Loader2, ShoppingCart, Check, X, Tag, Zap } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const ProductPage = () => {
+    const { t, lang } = useLanguage();
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -41,8 +43,8 @@ const ProductPage = () => {
 
     if (!product) return (
         <div className="h-[50vh] flex flex-col items-center justify-center gap-4 text-gray-400">
-            <p>Product not found.</p>
-            <Link to="/" className="text-indigo-400 hover:underline">Back to Store</Link>
+            <p>{t('productNotFound')}</p>
+            <Link to="/" className="text-indigo-400 hover:underline">{t('backToStore')}</Link>
         </div>
     );
 
@@ -56,8 +58,8 @@ const ProductPage = () => {
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 transition-colors duration-300">
             <Link to="/" className="inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] mb-8 transition-colors">
-                <ArrowLeft size={20} />
-                Back to Inventory
+                <ArrowLeft size={20} className={lang === 'ar' ? 'rotate-180' : ''} />
+                {t('backToInventory')}
             </Link>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -79,7 +81,7 @@ const ProductPage = () => {
                                 : 'bg-red-500/10 text-red-500 border border-red-500/20'
                                 }`}>
                                 {isAvailable ? <Check size={12} /> : <X size={12} />}
-                                {product.status}
+                                {isAvailable ? t('inStock') : t('outOfStock')}
                             </span>
                         </div>
 
@@ -101,8 +103,8 @@ const ProductPage = () => {
 
                     <div className="pt-8 border-t border-[var(--border-color)]">
                         <div className="flex items-end justify-between mb-8">
-                            <div>
-                                <span className="text-sm text-[var(--text-muted)] block mb-1">Price</span>
+                            <div className={`flex flex-col ${lang === 'ar' ? 'items-end' : 'items-start'}`}>
+                                <span className="text-sm text-[var(--text-muted)] block mb-1">{t('priceLabel')}</span>
                                 <span className="text-4xl font-bold text-[var(--text-primary)]">
                                     <span className="text-indigo-400 text-2xl align-top mr-1">$</span>
                                     {product.Price}
@@ -120,18 +122,18 @@ const ProductPage = () => {
                                     }`}
                             >
                                 <ShoppingCart size={24} />
-                                Add to Cart
+                                {t('addToCart')}
                             </button>
                             <button
                                 disabled={!isAvailable}
                                 onClick={handleBuyNow}
                                 className={`flex-1 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${isAvailable
                                     ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
-                                    : 'bg-[var(--bg-tertiary)] text-[var(--text-muted)] cursor-not-allowed border border-[var(--border-color)] opacity-50'
+                                    : 'bg-[var(--bg-tertiary)] text-[var(--text-muted)] cursor-not-allowed border border-border-color] opacity-50'
                                     }`}
                             >
                                 <Zap size={24} />
-                                Buy Now
+                                {t('buyNow')}
                             </button>
                         </div>
                     </div>

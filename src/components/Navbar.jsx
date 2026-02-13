@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
+import LanguageSelector from './LanguageSelector';
 
 const Navbar = ({ onSearch }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,6 +14,7 @@ const Navbar = ({ onSearch }) => {
     const { cart, toggleDrawer } = useCart();
     const { theme, toggleTheme } = useTheme();
     const { user, signOut } = useAuth();
+    const { t } = useLanguage();
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -49,7 +52,7 @@ const Navbar = ({ onSearch }) => {
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-indigo-400 transition-colors" size={18} />
                             <input
                                 type="text"
-                                placeholder="Search products..."
+                                placeholder={t('searchPlaceholder')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-2.5 pl-10 pr-4 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all"
@@ -59,6 +62,7 @@ const Navbar = ({ onSearch }) => {
 
                     {/* Desktop Actions */}
                     <div className="hidden md:flex items-center gap-6">
+                        <LanguageSelector />
                         <button
                             onClick={toggleTheme}
                             className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-bg)] rounded-xl transition-all"
@@ -97,6 +101,7 @@ const Navbar = ({ onSearch }) => {
 
                     {/* Mobile Menu Button */}
                     <div className="flex items-center gap-4 md:hidden">
+                        <LanguageSelector />
                         <button
                             onClick={toggleTheme}
                             className="p-2 text-[var(--text-secondary)]"
@@ -124,7 +129,7 @@ const Navbar = ({ onSearch }) => {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" size={18} />
                         <input
                             type="text"
-                            placeholder="Search..."
+                            placeholder={t('searchPlaceholder')}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-3 pl-10 text-[var(--text-primary)] focus:outline-none focus:border-indigo-500/50"
@@ -139,14 +144,14 @@ const Navbar = ({ onSearch }) => {
                             className="flex items-center justify-center gap-2 py-3 bg-[var(--bg-tertiary)] rounded-xl text-[var(--text-primary)]"
                         >
                             <ShoppingCart size={20} />
-                            <span className="text-sm font-medium">Cart ({cartCount})</span>
+                            <span className="text-sm font-medium">{t('cart')} ({cartCount})</span>
                         </button>
                         <button
                             onClick={() => signOut()}
                             className="flex items-center justify-center gap-2 py-3 bg-[var(--bg-tertiary)] rounded-xl text-red-400"
                         >
                             <LogOut size={20} />
-                            <span className="text-sm font-medium">Sign Out</span>
+                            <span className="text-sm font-medium">{t('signOut')}</span>
                         </button>
                     </div>
                 </motion.div>

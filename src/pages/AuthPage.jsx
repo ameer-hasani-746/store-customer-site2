@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, Loader2, ArrowRight, Github, Chrome, LogIn, UserPlus } from 'lucide-react';
+import { Mail, Lock, Loader2, ArrowRight, Github, Chrome, LogIn, UserPlus, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
+import LanguageSelector from '../components/LanguageSelector';
 
 const AuthPage = () => {
+    const { lang, t } = useLanguage();
+    const { theme, toggleTheme } = useTheme();
     const [isLogin, setIsLogin] = useState(true);
     const [isMagicLink, setIsMagicLink] = useState(false);
     const [email, setEmail] = useState('');
@@ -52,6 +57,17 @@ const AuthPage = () => {
 
     return (
         <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4 selection:bg-indigo-500/30">
+            {/* Theme & Language Controls */}
+            <div className="fixed top-6 right-6 left-6 flex justify-end gap-3 z-50">
+                <LanguageSelector />
+                <button
+                    onClick={toggleTheme}
+                    className="p-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-bg)] transition-all shadow-lg"
+                    title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                >
+                    {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                </button>
+            </div>
             {/* Background Decoration */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 rounded-full blur-[120px]" />
@@ -74,14 +90,14 @@ const AuthPage = () => {
                             S
                         </motion.div>
                         <h1 className="text-3xl font-display font-bold text-[var(--text-primary)] mb-2 tracking-tight">
-                            {isMagicLink ? 'Instant Access' : isLogin ? 'Welcome Back' : 'Create Account'}
+                            {isMagicLink ? t('instantAccess') : isLogin ? t('welcomeBack') : t('createAccount')}
                         </h1>
                         <p className="text-[var(--text-secondary)]">
                             {isMagicLink
-                                ? "We'll send a secure login link to your email."
+                                ? t('magicLinkDescription')
                                 : isLogin
-                                    ? 'Enter your credentials to access your store.'
-                                    : 'Join us and start building your collection.'}
+                                    ? t('signInDescription')
+                                    : t('signUpDescription')}
                         </p>
                     </div>
 
@@ -92,35 +108,35 @@ const AuthPage = () => {
                             className="flex items-center justify-center gap-2 py-3 px-4 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] hover:bg-[var(--glass-bg)] transition-all"
                         >
                             <Chrome size={20} />
-                            <span className="text-sm font-medium">Google</span>
+                            <span className="text-sm font-medium">{t('google')}</span>
                         </button>
                         <button
                             onClick={() => handleSocialLogin('github')}
                             className="flex items-center justify-center gap-2 py-3 px-4 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] hover:bg-[var(--glass-bg)] transition-all"
                         >
                             <Github size={20} />
-                            <span className="text-sm font-medium">GitHub</span>
+                            <span className="text-sm font-medium">{t('github')}</span>
                         </button>
                     </div>
 
                     <div className="relative mb-8">
                         <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-[var(--border-color)]"></div></div>
-                        <div className="relative flex justify-center text-xs uppercase"><span className="px-3 bg-[var(--bg-secondary)] text-[var(--text-muted)] tracking-widest font-bold">Or continue with</span></div>
+                        <div className="relative flex justify-center text-xs uppercase"><span className="px-3 bg-[var(--bg-secondary)] text-[var(--text-muted)] tracking-widest font-bold">{t('orContinueWith')}</span></div>
                     </div>
 
                     {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-[var(--text-secondary)] ml-1">Email Address</label>
+                            <label className="text-sm font-medium text-[var(--text-secondary)] ml-1">{t('emailLabel')}</label>
                             <div className="relative group">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-indigo-400 transition-colors" size={18} />
+                                <Mail className={`absolute ${lang === 'ar' ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-indigo-400 transition-colors`} size={18} />
                                 <input
                                     required
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="name@company.com"
-                                    className="w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-4 pl-12 pr-4 text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all"
+                                    className={`w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-4 ${lang === 'ar' ? 'pr-12 pl-4 text-right' : 'pl-12 pr-4'} text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all`}
                                 />
                             </div>
                         </div>
@@ -128,26 +144,26 @@ const AuthPage = () => {
                         {!isMagicLink && (
                             <div className="space-y-2">
                                 <div className="flex justify-between items-center ml-1">
-                                    <label className="text-sm font-medium text-[var(--text-secondary)]">Password</label>
+                                    <label className="text-sm font-medium text-[var(--text-secondary)]">{t('passwordLabel')}</label>
                                     {isLogin && (
                                         <button
                                             type="button"
                                             onClick={() => setIsMagicLink(true)}
                                             className="text-xs text-indigo-400 hover:text-indigo-300 font-medium tracking-tight"
                                         >
-                                            Use Magic Link?
+                                            {t('useMagicLink')}
                                         </button>
                                     )}
                                 </div>
                                 <div className="relative group">
-                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-indigo-400 transition-colors" size={18} />
+                                    <Lock className={`absolute ${lang === 'ar' ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-indigo-400 transition-colors`} size={18} />
                                     <input
                                         required
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="••••••••"
-                                        className="w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-4 pl-12 pr-4 text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all"
+                                        className={`w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-4 ${lang === 'ar' ? 'pr-12 pl-4 text-right' : 'pl-12 pr-4'} text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all`}
                                     />
                                 </div>
                             </div>
@@ -172,8 +188,8 @@ const AuthPage = () => {
                                 <Loader2 className="animate-spin" size={20} />
                             ) : (
                                 <>
-                                    {isMagicLink ? 'Send Magic Link' : isLogin ? 'Sign In' : 'Create Account'}
-                                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                    {isMagicLink ? t('sendMagicLink') : isLogin ? t('signIn') : t('signUp')}
+                                    <ArrowRight size={18} className={`${lang === 'ar' ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'} transition-transform`} />
                                 </>
                             )}
                         </button>
@@ -191,12 +207,12 @@ const AuthPage = () => {
                             {isLogin ? (
                                 <>
                                     <UserPlus size={18} className="text-indigo-400" />
-                                    New here? <span className="text-indigo-400 underline underline-offset-4">Create an account</span>
+                                    {t('newHere')} <span className="text-indigo-400 underline underline-offset-4">{t('createAccount')}</span>
                                 </>
                             ) : (
                                 <>
                                     <LogIn size={18} className="text-indigo-400" />
-                                    Already have an account? <span className="text-indigo-400 underline underline-offset-4">Sign in instead</span>
+                                    {t('alreadyHaveAccount')} <span className="text-indigo-400 underline underline-offset-4">{t('signIn')}</span>
                                 </>
                             )}
                         </button>
@@ -206,7 +222,7 @@ const AuthPage = () => {
                                 onClick={() => setIsMagicLink(false)}
                                 className="text-xs text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
                             >
-                                Back to Password Login
+                                {t('backToPassword')}
                             </button>
                         )}
                     </div>

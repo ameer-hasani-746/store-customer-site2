@@ -8,6 +8,8 @@ import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
 import AuthPage from './pages/AuthPage';
 
+import { LanguageProvider } from './context/LanguageContext';
+
 const AppContent = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { user, loading } = useAuth();
@@ -37,9 +39,11 @@ const AppContent = () => {
 function App() {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

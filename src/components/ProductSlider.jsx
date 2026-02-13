@@ -1,20 +1,26 @@
 import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductCard from './ProductCard';
+import { useLanguage } from '../context/LanguageContext';
 
 const ProductSlider = ({ title, products }) => {
+    const { lang } = useLanguage();
     const scrollContainerRef = useRef(null);
 
     const scroll = (direction) => {
         if (scrollContainerRef.current) {
             const container = scrollContainerRef.current;
             const scrollAmount = 350; // Width of a card + gap
-            const newScrollLeft = direction === 'left'
-                ? container.scrollLeft - scrollAmount
-                : container.scrollLeft + scrollAmount;
 
-            container.scrollTo({
-                left: newScrollLeft,
+            // Adjust scroll for RTL
+            const isRTL = lang === 'ar';
+            let moveAmount = direction === 'left' ? -scrollAmount : scrollAmount;
+
+            // In RTL, scrollLeft might be negative or decreasing
+            if (isRTL) moveAmount = -moveAmount;
+
+            container.scrollBy({
+                left: moveAmount,
                 behavior: 'smooth'
             });
         }

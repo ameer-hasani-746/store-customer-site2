@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import ProductSlider from '../components/ProductSlider';
 import { Loader2, AlertCircle, ShoppingBag } from 'lucide-react';
 import { useOutletContext } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const HomePage = () => {
     const [products, setProducts] = useState([]);
@@ -12,6 +13,7 @@ const HomePage = () => {
 
     // Search from Outlet Context (Navbar)
     const { searchQuery } = useOutletContext();
+    const { t, lang } = useLanguage();
 
     useEffect(() => {
         fetchProducts();
@@ -30,7 +32,7 @@ const HomePage = () => {
             setProducts(data || []);
         } catch (err) {
             console.error('Error fetching products:', err);
-            setError('Failed to load products. Please try again later.');
+            setError(t('failedLoadProducts'));
         } finally {
             setLoading(false);
         }
@@ -67,7 +69,7 @@ const HomePage = () => {
         return (
             <div className="min-h-[60vh] flex flex-col items-center justify-center text-gray-500 gap-4">
                 <Loader2 className="animate-spin text-indigo-500" size={32} />
-                <p className="text-sm font-medium tracking-wider uppercase">Loading Store...</p>
+                <p className="text-sm font-medium tracking-wider uppercase">{t('loadingStore')}</p>
             </div>
         );
     }
@@ -81,7 +83,7 @@ const HomePage = () => {
                     onClick={fetchProducts}
                     className="px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-lg text-sm hover:bg-red-500/20 transition-colors"
                 >
-                    Retry Connection
+                    {t('retryConnection')}
                 </button>
             </div>
         );
@@ -91,14 +93,13 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 transition-colors duration-300">
             <div className="flex flex-col gap-12">
                 {/* Hero Section */}
-                <div className="text-center md:text-left space-y-4 mb-4">
+                <div className={`text-center md:${lang === 'ar' ? 'text-right' : 'text-left'} space-y-4 mb-4`}>
                     <h1 className="text-4xl md:text-5xl font-bold font-display leading-tight text-[var(--text-primary)]">
-                        Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">Inventory</span>
-                        <br /> Collection
+                        {t('premiumInventory')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">{t('premiumInventory').includes('Premium') ? 'Inventory' : ''}</span>
+                        <br /> {t('collection')}
                     </h1>
                     <p className="text-[var(--text-secondary)] max-w-2xl text-lg leading-relaxed">
-                        Browse our exclusive selection of high-quality items.
-                        Real-time availability directly from our secure warehouse.
+                        {t('heroDescription')}
                     </p>
                 </div>
 
@@ -107,8 +108,8 @@ const HomePage = () => {
                     {categories.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-20 bg-[var(--bg-secondary)] rounded-3xl border border-[var(--border-color)] border-dashed">
                             <ShoppingBag size={48} className="text-[var(--text-muted)] mb-4" />
-                            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">No items found</h3>
-                            <p className="text-[var(--text-secondary)]">Try adjusting your search query.</p>
+                            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">{t('noItemsFound')}</h3>
+                            <p className="text-[var(--text-secondary)]">{t('tryAdjustingSearch')}</p>
                         </div>
                     ) : (
                         <div className="space-y-4">
