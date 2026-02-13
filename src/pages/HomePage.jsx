@@ -5,7 +5,7 @@ import ProductCard from '../components/ProductCard';
 import ProductSlider from '../components/ProductSlider';
 import FeaturesBar from '../components/FeaturesBar';
 import PromoBanner from '../components/PromoBanner';
-import { Search, Loader2, ArrowRight, LayoutGrid, Cpu, Smartphone, Sparkles } from 'lucide-react';
+import { Search, Loader2, ArrowRight, LayoutGrid, Cpu, Smartphone, Sparkles, ShoppingBasket, Armchair, Shirt, Home, MoreHorizontal } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -40,9 +40,13 @@ const HomePage = () => {
 
     const categories = [
         { name: 'All', icon: <LayoutGrid size={20} />, label: t('allProducts') },
+        { name: 'Food & Groceries', icon: <ShoppingBasket size={20} />, label: lang === 'ar' ? 'البقالة والمواد الغذائية' : 'Food & Groceries' },
         { name: 'Electronics', icon: <Cpu size={20} />, label: lang === 'ar' ? 'إلكترونيات' : 'Electronics' },
-        { name: 'Phones', icon: <Smartphone size={20} />, label: lang === 'ar' ? 'هواتف' : 'Phones' },
-        { name: 'Accessories', icon: <Sparkles size={20} />, label: lang === 'ar' ? 'إكسسوارات' : 'Accessories' }
+        { name: 'Furniture', icon: <Armchair size={20} />, label: lang === 'ar' ? 'أثاث' : 'Furniture' },
+        { name: 'Clothing', icon: <Shirt size={20} />, label: lang === 'ar' ? 'ملابس' : 'Clothing' },
+        { name: 'Personal Care', icon: <Sparkles size={20} />, label: lang === 'ar' ? 'عناية شخصية' : 'Personal Care' },
+        { name: 'Home Supplies', icon: <Home size={20} />, label: lang === 'ar' ? 'مستلزمات منزلية' : 'Home Supplies' },
+        { name: 'Other', icon: <MoreHorizontal size={20} />, label: lang === 'ar' ? 'أخرى' : 'Other' }
     ];
 
     const filteredProducts = products
