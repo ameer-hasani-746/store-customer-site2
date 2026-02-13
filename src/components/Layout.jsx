@@ -6,13 +6,13 @@ import ChatWidget from './ChatWidget';
 import CartDrawer from './CartDrawer';
 import Footer from './Footer';
 
-const Layout = ({ onSearch, searchQuery }) => {
+const Layout = () => {
     return (
         <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans selection:bg-indigo-500/30 transition-colors duration-300">
-            <Navbar onSearch={onSearch} />
+            <Navbar />
             <CartDrawer />
             <main className="pt-20 min-h-[calc(100vh-80px)]">
-                <Outlet context={{ searchQuery }} />
+                <Outlet />
             </main>
             <Footer />
             <ChatWidget />

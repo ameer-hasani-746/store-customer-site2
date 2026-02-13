@@ -7,16 +7,12 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
 import AuthPage from './pages/AuthPage';
+import SearchResults from './pages/SearchResults';
 
 import { LanguageProvider } from './context/LanguageContext';
 
 const AppContent = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const { user, loading } = useAuth();
-
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-  };
 
   if (loading) return null;
 
@@ -26,8 +22,9 @@ const AppContent = () => {
     <CartProvider>
       <Router>
         <Routes>
-          <Route element={<Layout onSearch={handleSearch} searchQuery={searchQuery} />}>
+          <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<SearchResults />} />
             <Route path="/product/:id" element={<ProductPage />} />
           </Route>
         </Routes>

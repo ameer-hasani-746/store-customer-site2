@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ShoppingCart, Menu, X, User, Sun, Moon, LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageSelector from './LanguageSelector';
 
-const Navbar = ({ onSearch }) => {
+const Navbar = () => {
+    const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const { cart, toggleDrawer } = useCart();
@@ -25,15 +26,18 @@ const Navbar = ({ onSearch }) => {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        onSearch(searchQuery);
+        if (searchQuery.trim()) {
+            navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+            setIsMenuOpen(false);
+        }
     };
 
     const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                ? 'bg-[var(--bg-primary)]/80 backdrop-blur-xl border-b border-[var(--border-color)] py-2'
-                : 'bg-transparent py-4'
+            ? 'bg-[var(--bg-primary)]/80 backdrop-blur-xl border-b border-[var(--border-color)] py-2'
+            : 'bg-transparent py-4'
             }`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
@@ -43,7 +47,6 @@ const Navbar = ({ onSearch }) => {
                         to="/"
                         onClick={() => {
                             window.scrollTo(0, 0);
-                            onSearch('');
                             setSearchQuery('');
                         }}
                         className="flex items-center gap-2 group relative z-50 cursor-pointer"
