@@ -5,6 +5,7 @@ import ProductCard from '../components/ProductCard';
 import ProductSlider from '../components/ProductSlider';
 import FeaturesBar from '../components/FeaturesBar';
 import PromoBanner from '../components/PromoBanner';
+import SortDropdown from '../components/SortDropdown';
 import { Search, Loader2, ArrowRight, LayoutGrid, Cpu, Smartphone, Sparkles, ShoppingBasket, Armchair, Shirt, Home, MoreHorizontal } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
@@ -206,15 +207,7 @@ const HomePage = () => {
                     </div>
 
                     <div className="flex items-center gap-4 w-full md:w-auto">
-                        <select
-                            className="flex-1 md:w-auto px-6 py-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium text-[var(--text-primary)]"
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                        >
-                            <option value="Newest">{t('newest')}</option>
-                            <option value="Price: Low to High">{t('priceLowToHigh')}</option>
-                            <option value="Price: High to Low">{t('priceHighToLow')}</option>
-                        </select>
+                        <SortDropdown sortBy={sortBy} setSortBy={setSortBy} />
                     </div>
                 </div>
 
@@ -222,8 +215,8 @@ const HomePage = () => {
                 {selectedCategory === 'All' && !searchQuery && (
                     <div className="space-y-16">
                         <ProductSlider
-                            title={lang === 'ar' ? 'منتجات مختارة' : 'Featured Products'}
-                            products={featuredProducts}
+                            title={lang === 'ar' ? 'وصلنا حديثاً' : 'New Arrivals'}
+                            products={newArrivals}
                         />
 
                         <PromoBanner
@@ -231,11 +224,6 @@ const HomePage = () => {
                             subtitle={lang === 'ar' ? 'عرض خاص' : 'Special Offer'}
                             color="blue"
                             image="https://images.unsplash.com/photo-1556656793-062ff9878258?auto=format&fit=crop&q=80&w=800"
-                        />
-
-                        <ProductSlider
-                            title={lang === 'ar' ? 'وصلنا حديثاً' : 'New Arrivals'}
-                            products={newArrivals}
                         />
 
                         <PromoBanner

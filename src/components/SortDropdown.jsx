@@ -1,45 +1,82 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { ChevronDown, BarChart3, Clock, ArrowDownWideArrow, ArrowUpNarrowWide } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
-import React from 'react';
-import { ArrowUp, ArrowDown, ChevronDown } from 'lucide-react';
+const SortDropdown = ({ sortBy, setSortBy }) => {
+    const { t, lang } = useLanguage();
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
-const SORT_OPTIONS = [
-    { value: 'created_at', label: 'Newest Arrivals' },
-    { value: 'Price', label: 'Price' },
-    { value: 'product_name', label: 'Name' },
-];
+    const options = [
+        { id: 'Newest', label: t('newest'), icon: <Clock size={16} /> },
+        { id: 'Price: Low to High', label: t('priceLowToHigh'), icon: <ArrowDownWideArrow size={16} /> },
+        { id: 'Price: High to Low', label: t('priceHighToLow'), icon: <ArrowUpNarrowWide size={16} /> }
+    ];
 
-const SortDropdown = ({ currentSort, sortDirection, onSortChange, onDirectionChange }) => {
+    const currentOption = options.find(opt => opt.id === sortBy) || options[0];
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     return (
-        <div className="flex items-center gap-2 bg-[#1c1c21] rounded-xl border border-white/5 p-1">
-
-            {/* Field Selector */}
-            <div className="relative group">
-                <select
-                    value={currentSort}
-                    onChange={(e) => onSortChange(e.target.value)}
-                    className="appearance-none bg-transparent text-sm text-gray-300 font-medium pl-3 pr-8 py-1.5 focus:outline-none cursor-pointer"
-                >
-                    {SORT_OPTIONS.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-[#1c1c21] text-gray-300">
-                            {opt.label}
-                        </option>
-                    ))}
-                </select>
-                <ChevronDown
-                    size={14}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none group-hover:text-white transition-colors"
-                />
-            </div>
-
-            {/* Direction Toggle */}
+        <div className="relative" ref={dropdownRef}>
             <button
-                onClick={() => onDirectionChange(sortDirection === 'asc' ? 'desc' : 'asc')}
-                className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-all border border-white/5"
-                title={sortDirection === 'asc' ? 'Ascending' : 'Descending'}
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center gap-3 px-6 py-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl hover:border-indigo-500/50 transition-all min-w-[240px] text-[var(--text-primary)] shadow-sm"
             >
-                {sortDirection === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
+                <div className="text-indigo-400">
+                    <BarChart3 size={20} />
+                </div>
+                <span className={`flex-1 text-sm font-bold ${lang === 'ar' ? 'text-right' : 'text-left'}`}>
+                    {currentOption.label}
+                </span>
+                <motion.div
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    <ChevronDown size={18} className="text-[var(--text-muted)]" />
+                </motion.div>
             </button>
 
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        className={`absolute top-full mt-2 w-full z-50 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl ${lang === 'ar' ? 'right-0' : 'left-0'}`}
+                    >
+                        <div className="p-2 space-y-1">
+                            {options.map((option) => (
+                                <button
+                                    key={option.id}
+                                    onClick={() => {
+                                        setSortBy(option.id);
+                                        setIsOpen(false);
+                                    }}
+                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${sortBy === option.id
+                                            ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20'
+                                            : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'
+                                        }`}
+                                >
+                                    <span className={sortBy === option.id ? 'text-white' : 'text-indigo-400'}>
+                                        {option.icon}
+                                    </span>
+                                    <span className="text-sm font-bold">{option.label}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
