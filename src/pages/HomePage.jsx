@@ -58,13 +58,37 @@ const HomePage = () => {
             return new Date(b.created_at) - new Date(a.created_at);
         });
 
-    const featuredProducts = products.filter(p => p.status === 'Available').slice(0, 8);
-    const newArrivals = products.slice(0, 6);
+    const heroImages = [
+        {
+            url: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=800",
+            title: lang === 'ar' ? 'سلسلة بريميوم اليكس' : 'Premium Alex Series',
+            subtitle: lang === 'ar' ? 'إصدار محدود' : 'Limited Edition'
+        },
+        {
+            url: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=800",
+            title: lang === 'ar' ? 'أزياء راقية' : 'High-End Fashion',
+            subtitle: lang === 'ar' ? 'موضة 2026' : '2026 Trends'
+        },
+        {
+            url: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=800",
+            title: lang === 'ar' ? 'ديكور عصري' : 'Modern Decor',
+            subtitle: lang === 'ar' ? 'منزلك بأسلوبك' : 'Your Home, Your Style'
+        }
+    ];
+
+    const [currentImage, setCurrentImage] = useState(0);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentImage((prev) => (prev + 1) % heroImages.length);
+        }, 3000);
+        return () => clearInterval(timer);
+    }, []);
 
     return (
         <div className="space-y-12 pb-20 overflow-hidden">
             {/* Hero Section - Pro Redesign */}
-            <section className="relative min-h-[70vh] flex items-center overflow-hidden">
+            <section className="relative min-h-[75vh] flex items-center overflow-hidden pt-12 md:pt-20">
                 {/* Background Decoration */}
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-indigo-500/10 to-transparent -z-10 ltr-only" />
                 <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-indigo-500/10 to-transparent -z-10 rtl-only" />
@@ -98,26 +122,41 @@ const HomePage = () => {
                         </div>
                     </motion.div>
 
-                    {/* Hero Visual */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        className="hidden lg:block relative"
-                    >
-                        <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border border-[var(--border-color)] aspect-square">
-                            <img
-                                src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=800"
-                                alt="Hero"
-                                className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-12">
-                                <div className="text-white">
-                                    <p className="text-white/60 text-sm font-medium mb-2">{lang === 'ar' ? 'إصدار محدود' : 'Limited Edition'}</p>
-                                    <h3 className="text-2xl font-bold">{lang === 'ar' ? 'سلسلة بريميوم اليكس' : 'Premium Alex Series'}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
+                    {/* Hero Visual - Slideshow */}
+                    <div className="hidden lg:block relative h-full py-8">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border border-[var(--border-color)] aspect-square"
+                        >
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={currentImage}
+                                    initial={{ y: '100%' }}
+                                    animate={{ y: 0 }}
+                                    exit={{ y: '-100%' }}
+                                    transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                                    className="absolute inset-0 w-full h-full"
+                                >
+                                    <img
+                                        src={heroImages[currentImage].url}
+                                        alt="Hero"
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-12">
+                                        <div className="text-white">
+                                            <p className="text-white/60 text-sm font-medium mb-2">
+                                                {heroImages[currentImage].subtitle}
+                                            </p>
+                                            <h3 className="text-2xl font-bold">
+                                                {heroImages[currentImage].title}
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </AnimatePresence>
+                        </motion.div>
+                    </div>
                 </div>
             </section>
 
@@ -133,8 +172,8 @@ const HomePage = () => {
                                 key={cat.name}
                                 onClick={() => setSelectedCategory(cat.name)}
                                 className={`flex flex-col items-center gap-3 p-4 md:p-6 rounded-3xl transition-all duration-300 min-w-[100px] md:min-w-[140px] ${selectedCategory === cat.name
-                                        ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-500/20 scale-105'
-                                        : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-color)] hover:border-indigo-500/50 hover:text-[var(--text-primary)]'
+                                    ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-500/20 scale-105'
+                                    : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-color)] hover:border-indigo-500/50 hover:text-[var(--text-primary)]'
                                     }`}
                             >
                                 <div className={`p-3 rounded-2xl ${selectedCategory === cat.name ? 'bg-white/10' : 'bg-[var(--bg-tertiary)] group-hover:bg-indigo-500/10'}`}>
