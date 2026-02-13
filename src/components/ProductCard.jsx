@@ -18,8 +18,8 @@ const ProductCard = ({ product }) => {
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -5 }}
-            className="group relative bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl overflow-hidden hover:border-indigo-500/30 transition-all duration-300 h-full flex flex-col"
+            whileHover={{ y: -8 }}
+            className="group relative bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[2rem] overflow-hidden hover:border-indigo-500/30 transition-all duration-500 h-full flex flex-col hover:shadow-premium"
         >
             <Link to={`/product/${product.Product_id}`}>
                 {/* Image Container */}
