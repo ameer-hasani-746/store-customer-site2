@@ -8,6 +8,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
 import AuthPage from './pages/AuthPage';
 import SearchResults from './pages/SearchResults';
+import ScrollToTop from './components/ScrollToTop';
 
 import { LanguageProvider } from './context/LanguageContext';
 
@@ -21,6 +22,7 @@ const AppContent = () => {
   return (
     <CartProvider>
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
