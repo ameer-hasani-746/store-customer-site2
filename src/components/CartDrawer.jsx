@@ -6,22 +6,36 @@ import { useLanguage } from '../context/LanguageContext';
 
 const CartDrawer = () => {
     const { lang, t } = useLanguage();
-    const { cart, removeFromCart, updateQuantity, subtotal, isDrawerOpen, setIsDrawerOpen, clearCart } = useCart();
+    const {
+        cart,
+        removeFromCart,
+        updateQuantity,
+        subtotal,
+        isDrawerOpen,
+        setIsDrawerOpen,
+        clearCart,
+        checkout
+    } = useCart();
     const [isCheckingOut, setIsCheckingOut] = useState(false);
     const [checkoutSuccess, setCheckoutSuccess] = useState(false);
+    const [error, setError] = useState(null);
 
-    const handleCheckout = () => {
+    const handleCheckout = async () => {
         setIsCheckingOut(true);
-        // Simulate API call
-        setTimeout(() => {
-            setIsCheckingOut(false);
+        setError(null);
+
+        const result = await checkout();
+
+        setIsCheckingOut(false);
+        if (result.success) {
             setCheckoutSuccess(true);
             setTimeout(() => {
                 setCheckoutSuccess(false);
-                clearCart();
                 setIsDrawerOpen(false);
             }, 3000);
-        }, 2000);
+        } else {
+            setError(result.error);
+        }
     };
 
     return (
@@ -133,6 +147,11 @@ const CartDrawer = () => {
                                     <span className="text-[var(--text-secondary)]">{t('subtotal')}</span>
                                     <span className="text-2xl font-bold text-[var(--text-primary)]">${subtotal.toFixed(2)}</span>
                                 </div>
+                                {error && (
+                                    <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm">
+                                        {error}
+                                    </div>
+                                )}
                                 <button
                                     onClick={handleCheckout}
                                     disabled={isCheckingOut}

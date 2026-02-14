@@ -169,7 +169,38 @@ export const CartProvider = ({ children }) => {
         return total + (price * item.quantity);
     }, 0);
 
-    const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
+    const checkout = async (customerName) => {
+        if (!user || cart.length === 0) return { success: false, error: 'User not logged in or cart empty' };
+
+        try {
+            const orderData = {
+                user_id: user.id,
+                customer_name: customerName || user.email,
+                items: cart.map(item => ({
+                    product_id: item.Product_id,
+                    product_name: item.product_name,
+                    price: item.Price,
+                    quantity: item.quantity
+                })),
+                total_price: subtotal,
+                status: 'Pending'
+            };
+
+            const { data, error } = await supabase
+                .from('Orders')
+                .insert(orderData)
+                .select()
+                .single();
+
+            if (error) throw error;
+
+            await clearCart();
+            return { success: true, order: data };
+        } catch (err) {
+            console.error("Checkout Error:", err);
+            return { success: false, error: err.message };
+        }
+    };
 
     return (
         <CartContext.Provider value={{
@@ -178,6 +209,7 @@ export const CartProvider = ({ children }) => {
             removeFromCart,
             updateQuantity,
             clearCart,
+            checkout,
             subtotal,
             isDrawerOpen,
             setIsDrawerOpen,
