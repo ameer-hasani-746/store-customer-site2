@@ -74,7 +74,7 @@ const HomePage = () => {
 
                 // Rearrange products to match the sorted order
                 const sortedProducts = sortedIds
-                    .map(id => productsData.find(p => p.Product_id.toString() === id.toString()))
+                    .map(id => productsData?.find(p => p.Product_id && p.Product_id.toString() === id.toString()))
                     .filter(p => p !== undefined);
 
                 setMostSoldProducts(sortedProducts);
@@ -97,15 +97,18 @@ const HomePage = () => {
 
     const filteredProducts = products
         .filter(p => {
-            const matchesSearch = p.product_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            const name = p.product_name || '';
+            const matchesSearch = name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 (p.tags && p.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())));
             const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
             return matchesSearch && matchesCategory;
         })
         .sort((a, b) => {
-            if (sortBy === 'Price: Low to High') return parseFloat(a.Price) - parseFloat(b.Price);
-            if (sortBy === 'Price: High to Low') return parseFloat(b.Price) - parseFloat(a.Price);
-            return new Date(b.created_at) - new Date(a.created_at);
+            const priceA = parseFloat(a.Price) || 0;
+            const priceB = parseFloat(b.Price) || 0;
+            if (sortBy === 'Price: Low to High') return priceA - priceB;
+            if (sortBy === 'Price: High to Low') return priceB - priceA;
+            return new Date(b.created_at || 0) - new Date(a.created_at || 0);
         });
 
     const tenDaysAgo = new Date();

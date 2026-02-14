@@ -143,6 +143,7 @@ export const LanguageProvider = ({ children }) => {
     };
 
     const t = (key) => {
+        if (!translations[lang]) return key;
         return translations[lang][key] || key;
     };
 

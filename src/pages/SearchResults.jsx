@@ -29,17 +29,21 @@ const SearchResults = () => {
 
             if (error) throw error;
 
-            let filtered = data.filter(p =>
-                p.product_name.toLowerCase().includes(query.toLowerCase()) ||
-                (p.tags && p.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))) ||
-                p.category.toLowerCase().includes(query.toLowerCase())
-            );
+            let filtered = data.filter(p => {
+                const name = p.product_name || '';
+                const cat = p.category || '';
+                return name.toLowerCase().includes(query.toLowerCase()) ||
+                    (p.tags && p.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))) ||
+                    cat.toLowerCase().includes(query.toLowerCase());
+            });
 
             // Apply Sorting
             filtered = filtered.sort((a, b) => {
-                if (sortBy === 'Price: Low to High') return parseFloat(a.Price) - parseFloat(b.Price);
-                if (sortBy === 'Price: High to Low') return parseFloat(b.Price) - parseFloat(a.Price);
-                return new Date(b.created_at) - new Date(a.created_at);
+                const priceA = parseFloat(a.Price) || 0;
+                const priceB = parseFloat(b.Price) || 0;
+                if (sortBy === 'Price: Low to High') return priceA - priceB;
+                if (sortBy === 'Price: High to Low') return priceB - priceA;
+                return new Date(b.created_at || 0) - new Date(a.created_at || 0);
             });
 
             setProducts(filtered);
@@ -55,9 +59,11 @@ const SearchResults = () => {
     useEffect(() => {
         if (products.length > 0) {
             const sorted = [...products].sort((a, b) => {
-                if (sortBy === 'Price: Low to High') return parseFloat(a.Price) - parseFloat(b.Price);
-                if (sortBy === 'Price: High to Low') return parseFloat(b.Price) - parseFloat(a.Price);
-                return new Date(b.created_at) - new Date(a.created_at);
+                const priceA = parseFloat(a.Price) || 0;
+                const priceB = parseFloat(b.Price) || 0;
+                if (sortBy === 'Price: Low to High') return priceA - priceB;
+                if (sortBy === 'Price: High to Low') return priceB - priceA;
+                return new Date(b.created_at || 0) - new Date(a.created_at || 0);
             });
             setProducts(sorted);
         }
