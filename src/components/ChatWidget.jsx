@@ -2,14 +2,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const WEBHOOK_URL = 'https://cuisocsasddsad.app.n8n.cloud/webhook/9b75ff93-6dba-4c2c-8a10-9d577ca68bba1111';
 
 const ChatWidget = () => {
+    const { t, lang } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState([
-        { id: 1, text: "Hello! How can I help you with our inventory today?", sender: 'bot' }
-    ]);
+    const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+        setMessages([
+            { id: 1, text: t('chatInitialMessage'), sender: 'bot' }
+        ]);
+    }, [lang]);
     const [inputText, setInputText] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef(null);
@@ -68,7 +74,7 @@ const ChatWidget = () => {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsOpen(true)}
-                className={`fixed bottom-6 right-6 w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg shadow-indigo-600/30 hover:scale-110 transition-transform z-40 ${isOpen ? 'hidden' : 'flex'}`}
+                className={`fixed bottom-6 ${lang === 'ar' ? 'left-6' : 'right-6'} w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg shadow-indigo-600/30 hover:scale-110 transition-transform z-40 ${isOpen ? 'hidden' : 'flex'}`}
             >
                 <MessageSquare className="text-white" size={24} />
             </button>
@@ -80,13 +86,13 @@ const ChatWidget = () => {
                         initial={{ opacity: 0, y: 20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className="fixed bottom-6 right-6 w-[90vw] md:w-[380px] h-[500px] bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden transition-colors duration-300"
+                        className={`fixed bottom-6 ${lang === 'ar' ? 'left-6' : 'right-6'} w-[90vw] md:w-[380px] h-[500px] bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden transition-colors duration-300`}
                     >
                         {/* Header */}
                         <div className="p-4 border-b border-[var(--border-color)] bg-[var(--bg-tertiary)] flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                                <h3 className="font-bold text-[var(--text-primary)]">Store Assistant</h3>
+                                <h3 className="font-bold text-[var(--text-primary)]">{t('chatHeader')}</h3>
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
@@ -130,15 +136,15 @@ const ChatWidget = () => {
                                     type="text"
                                     value={inputText}
                                     onChange={(e) => setInputText(e.target.value)}
-                                    placeholder="Type a message..."
-                                    className="w-full bg-[var(--bg-primary)] text-[var(--text-primary)] rounded-xl py-3 pl-4 pr-12 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500/50 border border-[var(--border-color)] placeholder-[var(--text-muted)]"
+                                    placeholder={t('chatPlaceholder')}
+                                    className={`w-full bg-[var(--bg-primary)] text-[var(--text-primary)] rounded-xl py-3 ${lang === 'ar' ? 'pr-4 pl-12' : 'pl-4 pr-12'} text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500/50 border border-[var(--border-color)] placeholder-[var(--text-muted)]`}
                                 />
                                 <button
                                     type="submit"
                                     disabled={!inputText.trim() || isTyping}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-indigo-400 hover:text-indigo-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className={`absolute ${lang === 'ar' ? 'left-2' : 'right-2'} top-1/2 -translate-y-1/2 p-2 text-indigo-400 hover:text-indigo-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
                                 >
-                                    <Send size={18} />
+                                    <Send size={18} className={lang === 'ar' ? 'rotate-180' : ''} />
                                 </button>
                             </div>
                             <p className="text-[10px] text-[var(--text-muted)] text-center mt-2">

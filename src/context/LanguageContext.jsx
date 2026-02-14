@@ -59,7 +59,10 @@ const translations = {
         collection: 'Collection',
         heroDescription: 'Browse our exclusive selection of high-quality items. Real-time availability directly from our secure warehouse.',
         noItemsFound: 'No items found',
-        tryAdjustingSearch: 'Try adjusting your search query.'
+        tryAdjustingSearch: 'Try adjusting your search query.',
+        chatHeader: 'Store Assistant',
+        chatInitialMessage: 'Hello! How can I help you with our inventory today?',
+        chatPlaceholder: 'Type a message...'
     },
     ar: {
         appName: 'ستور داش',
@@ -117,7 +120,10 @@ const translations = {
         collection: 'مجموعة',
         heroDescription: 'تصفح تشكيلتنا الحصرية من العناصر عالية الجودة. توفر في الوقت الحقيقي مباشرة من مستودعنا المؤمن.',
         noItemsFound: 'لم يتم العثور على عناصر',
-        tryAdjustingSearch: 'حاول تعديل استعلام البحث الخاص بك.'
+        tryAdjustingSearch: 'حاول تعديل استعلام البحث الخاص بك.',
+        chatHeader: 'مساعد المتجر',
+        chatInitialMessage: 'مرحباً! كيف يمكنني مساعدتك في استكشاف متجرنا اليوم؟',
+        chatPlaceholder: 'اكتب رسالة...'
     }
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import ProductCard from '../components/ProductCard';
+import SortDropdown from '../components/SortDropdown';
 import { Search, Loader2, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -11,6 +12,7 @@ const SearchResults = () => {
     const query = searchParams.get('q') || '';
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [sortBy, setSortBy] = useState('Newest');
 
     useEffect(() => {
         if (query) {
@@ -27,11 +29,18 @@ const SearchResults = () => {
 
             if (error) throw error;
 
-            const filtered = data.filter(p =>
+            let filtered = data.filter(p =>
                 p.product_name.toLowerCase().includes(query.toLowerCase()) ||
                 (p.tags && p.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))) ||
                 p.category.toLowerCase().includes(query.toLowerCase())
             );
+
+            // Apply Sorting
+            filtered = filtered.sort((a, b) => {
+                if (sortBy === 'Price: Low to High') return parseFloat(a.Price) - parseFloat(b.Price);
+                if (sortBy === 'Price: High to Low') return parseFloat(b.Price) - parseFloat(a.Price);
+                return new Date(b.created_at) - new Date(a.created_at);
+            });
 
             setProducts(filtered);
         } catch (err) {
@@ -40,6 +49,19 @@ const SearchResults = () => {
             setLoading(false);
         }
     };
+
+    // Re-sort when sortBy changes without re-fetching everything if possible, 
+    // but fetchResults already handles it and it's fast enough for local filter.
+    useEffect(() => {
+        if (products.length > 0) {
+            const sorted = [...products].sort((a, b) => {
+                if (sortBy === 'Price: Low to High') return parseFloat(a.Price) - parseFloat(b.Price);
+                if (sortBy === 'Price: High to Low') return parseFloat(b.Price) - parseFloat(a.Price);
+                return new Date(b.created_at) - new Date(a.created_at);
+            });
+            setProducts(sorted);
+        }
+    }, [sortBy]);
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-[60vh]">
@@ -52,13 +74,22 @@ const SearchResults = () => {
                     {lang === 'ar' ? 'العودة للمتجر' : 'Back to Store'}
                 </Link>
 
-                <h1 className="text-4xl font-display font-bold text-[var(--text-primary)]">
-                    {lang === 'ar' ? 'نتائج البحث عن' : 'Search results for'}:
-                    <span className="text-indigo-500 ml-2">"{query}"</span>
-                </h1>
-                <p className="text-[var(--text-secondary)] mt-2">
-                    {products.length} {lang === 'ar' ? 'منتج تم العثور عليه' : 'products found'}
-                </p>
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                    <div>
+                        <h1 className="text-4xl font-display font-bold text-[var(--text-primary)]">
+                            {lang === 'ar' ? 'نتائج البحث عن' : 'Search results for'}:
+                            <span className="text-indigo-500 ml-2">"{query}"</span>
+                        </h1>
+                        <p className="text-[var(--text-secondary)] mt-2">
+                            {products.length} {lang === 'ar' ? 'منتج تم العثور عليه' : 'products found'}
+                        </p>
+                    </div>
+                    {products.length > 0 && (
+                        <div className="w-full md:w-auto">
+                            <SortDropdown sortBy={sortBy} setSortBy={setSortBy} />
+                        </div>
+                    )}
+                </div>
             </div>
 
             {loading ? (

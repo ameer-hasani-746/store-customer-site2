@@ -16,9 +16,11 @@ const HomePage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [sortBy, setSortBy] = useState('Newest');
+    const [mostSoldProducts, setMostSoldProducts] = useState([]);
 
     useEffect(() => {
         fetchProducts();
+        fetchMostSold();
     }, []);
 
     const fetchProducts = async () => {
@@ -35,6 +37,50 @@ const HomePage = () => {
             console.error('Error:', err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchMostSold = async () => {
+        try {
+            const { data: orders, error: ordersError } = await supabase
+                .from('Orders')
+                .select('items');
+
+            if (ordersError) throw ordersError;
+
+            // Aggregate product counts
+            const counts = {};
+            orders?.forEach(order => {
+                const items = Array.isArray(order.items) ? order.items : [];
+                items.forEach(item => {
+                    const id = item.product_id;
+                    if (id) {
+                        counts[id] = (counts[id] || 0) + (item.quantity || 1);
+                    }
+                });
+            });
+
+            // Sort product IDs by count
+            const sortedIds = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+
+            // Fetch product details for these IDs
+            if (sortedIds.length > 0) {
+                const { data: productsData, error: productsError } = await supabase
+                    .from('Products')
+                    .select('*')
+                    .in('Product_id', sortedIds);
+
+                if (productsError) throw productsError;
+
+                // Rearrange products to match the sorted order
+                const sortedProducts = sortedIds
+                    .map(id => productsData.find(p => p.Product_id.toString() === id.toString()))
+                    .filter(p => p !== undefined);
+
+                setMostSoldProducts(sortedProducts);
+            }
+        } catch (err) {
+            console.error('Error fetching most sold:', err);
         }
     };
 
@@ -57,12 +103,18 @@ const HomePage = () => {
             return matchesSearch && matchesCategory;
         })
         .sort((a, b) => {
-            if (sortBy === 'Price: Low to High') return a.Price - b.Price;
-            if (sortBy === 'Price: High to Low') return b.Price - a.Price;
+            if (sortBy === 'Price: Low to High') return parseFloat(a.Price) - parseFloat(b.Price);
+            if (sortBy === 'Price: High to Low') return parseFloat(b.Price) - parseFloat(a.Price);
             return new Date(b.created_at) - new Date(a.created_at);
         });
 
-    const newArrivals = products.slice(0, 6);
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+
+    const newArrivals = products
+        .filter(p => new Date(p.created_at) >= tenDaysAgo)
+        .slice(0, 10)
+        .filter(p => selectedCategory === 'All' || p.category === selectedCategory);
 
     const heroImages = [
         {
@@ -190,37 +242,21 @@ const HomePage = () => {
                     </div>
                 </section>
 
-                {/* Product Search & Sort Header */}
-                <div className="flex flex-col md:flex-row justify-between items-center gap-6 py-12">
-                    <div className="relative w-full md:w-96 group">
-                        <Search className={`absolute ${lang === 'ar' ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-indigo-500 transition-colors`} size={20} />
-                        <input
-                            type="text"
-                            placeholder={t('searchPlaceholder')}
-                            className={`w-full ${lang === 'ar' ? 'pr-12 pl-4' : 'pl-12 pr-4'} py-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all`}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="flex items-center gap-4 w-full md:w-auto">
-                        <SortDropdown sortBy={sortBy} setSortBy={setSortBy} />
-                    </div>
-                </div>
-
                 {/* Product Sliders */}
                 {selectedCategory === 'All' && !searchQuery && (
-                    <div id="new-arrivals" className="space-y-16">
-                        <ProductSlider
-                            title={lang === 'ar' ? 'وصلنا حديثاً' : 'New Arrivals'}
-                            products={newArrivals}
-                        />
+                    <div id="new-arrivals" className="pt-4 space-y-16">
+                        {newArrivals.length > 0 && (
+                            <ProductSlider
+                                title={lang === 'ar' ? 'وصلنا حديثاً' : 'New Arrivals'}
+                                products={newArrivals}
+                            />
+                        )}
 
                         <PromoBanner
                             title={lang === 'ar' ? 'وفر حتى 50% على الهواتف' : 'Save up to 50% on Phones'}
                             subtitle={lang === 'ar' ? 'عرض خاص' : 'Special Offer'}
                             color="blue"
-                            image="https://images.unsplash.com/photo-1556656793-062ff9878258?auto=format&fit=crop&q=80&w=800"
+                            image="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800"
                         />
 
                         <PromoBanner
@@ -228,56 +264,73 @@ const HomePage = () => {
                             subtitle={lang === 'ar' ? 'الجديد وصل' : 'Just in'}
                             color="rose"
                             reverse={true}
-                            image="https://images.unsplash.com/photo-1625514523024-47340173bc31?auto=format&fit=crop&q=80&w=800"
+                            image="https://images.unsplash.com/photo-1546868891-d5b0ba2ad3d5?auto=format&fit=crop&q=80&w=800"
                         />
                     </div>
                 )}
 
-                {/* Main Product Grid */}
-                <div id="all-products" className="py-12">
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-3xl font-display font-bold text-[var(--text-primary)]">
-                            {searchQuery || selectedCategory !== 'All'
-                                ? `${t('allProducts')} (${filteredProducts.length})`
-                                : t('allProducts')
-                            }
-                        </h2>
-                    </div>
-
-                    {loading ? (
-                        <div className="flex flex-col items-center justify-center py-20 gap-4">
-                            <Loader2 className="animate-spin text-indigo-500" size={40} />
-                            <p className="text-[var(--text-secondary)] font-medium">{t('loadingStore')}</p>
+                {/* Main Product Section */}
+                <div id="all-products" className="py-12 border-t border-[var(--border-color)]">
+                    {!searchQuery && selectedCategory === 'All' ? (
+                        /* Default View: Most Seller Slider */
+                        <div className="space-y-16">
+                            {mostSoldProducts.length > 0 && (
+                                <ProductSlider
+                                    title={lang === 'ar' ? 'الأكثر مبيعاً' : 'Most Seller'}
+                                    products={mostSoldProducts}
+                                />
+                            )}
                         </div>
                     ) : (
-                        <AnimatePresence mode="popLayout">
-                            <motion.div
-                                layout
-                                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-                            >
-                                {filteredProducts.map(product => (
-                                    <ProductCard key={product.Product_id} product={product} />
-                                ))}
-                            </motion.div>
-                        </AnimatePresence>
-                    )}
-
-                    {!loading && filteredProducts.length === 0 && (
-                        <div className="text-center py-20 px-6 bg-[var(--bg-secondary)] rounded-[2rem] border border-dashed border-[var(--border-color)]">
-                            <div className="mb-6 mx-auto w-20 h-20 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center text-[var(--text-muted)]">
-                                <Search size={40} />
+                        /* Filtered/Search View: Product Grid */
+                        <>
+                            <div className="flex items-center justify-between mb-8">
+                                <h2 className="text-3xl font-display font-bold text-[var(--text-primary)]">
+                                    {searchQuery || selectedCategory !== 'All'
+                                        ? `${t('allProducts')} (${filteredProducts.length})`
+                                        : t('allProducts')
+                                    }
+                                </h2>
                             </div>
-                            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">{t('productNotFound')}</h3>
-                            <p className="text-[var(--text-secondary)] mb-8 max-w-sm mx-auto">
-                                {lang === 'ar' ? 'لم نجد أي نتائج لبحثك. جرب كلمات بحث أخرى.' : 'No results found for your search. Try different keywords.'}
-                            </p>
-                            <button
-                                onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
-                                className="text-indigo-500 font-bold hover:underline"
-                            >
-                                {lang === 'ar' ? 'مسح كل الفلاتر' : 'Clear all filters'}
-                            </button>
-                        </div>
+
+                            {loading ? (
+                                <div className="flex flex-col items-center justify-center py-20 gap-4">
+                                    <Loader2 className="animate-spin text-indigo-500" size={40} />
+                                    <p className="text-[var(--text-secondary)] font-medium">{t('loadingStore')}</p>
+                                </div>
+                            ) : (
+                                <>
+                                    <AnimatePresence mode="popLayout">
+                                        <motion.div
+                                            layout
+                                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+                                        >
+                                            {filteredProducts.map(product => (
+                                                <ProductCard key={product.Product_id} product={product} />
+                                            ))}
+                                        </motion.div>
+                                    </AnimatePresence>
+
+                                    {filteredProducts.length === 0 && (
+                                        <div className="text-center py-20 px-6 bg-[var(--bg-secondary)] rounded-[2rem] border border-dashed border-[var(--border-color)]">
+                                            <div className="mb-6 mx-auto w-20 h-20 rounded-full bg-[var(--bg-tertiary)] flex items-center justify-center text-[var(--text-muted)]">
+                                                <Search size={40} />
+                                            </div>
+                                            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">{t('productNotFound')}</h3>
+                                            <p className="text-[var(--text-secondary)] mb-8 max-w-sm mx-auto">
+                                                {lang === 'ar' ? 'لم نجد أي نتائج لبحثك. جرب كلمات بحث أخرى.' : 'No results found for your search. Try different keywords.'}
+                                            </p>
+                                            <button
+                                                onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
+                                                className="text-indigo-500 font-bold hover:underline"
+                                            >
+                                                {lang === 'ar' ? 'مسح كل الفلاتر' : 'Clear all filters'}
+                                            </button>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </>
                     )}
                 </div>
             </div>

@@ -28,6 +28,7 @@ const CartDrawer = () => {
 
         setIsCheckingOut(false);
         if (result.success) {
+            clearCart();
             setCheckoutSuccess(true);
             setTimeout(() => {
                 setCheckoutSuccess(false);

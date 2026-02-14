@@ -37,7 +37,7 @@ const PromoBanner = ({ title, subtitle, image, color = "indigo", reverse = false
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-white text-[var(--bg-primary)] px-8 py-4 rounded-xl font-bold flex items-center gap-2 group transition-all"
+                            className="bg-white text-gray-900 px-8 py-4 rounded-xl font-bold flex items-center gap-2 group transition-all"
                         >
                             {lang === 'ar' ? 'اكتشف المزيد' : 'Explore Now'}
                             <ArrowRight size={20} className={`group-hover:translate-x-1 transition-transform ${lang === 'ar' ? 'rotate-180' : ''}`} />
