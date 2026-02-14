@@ -202,6 +202,8 @@ export const CartProvider = ({ children }) => {
         }
     };
 
+    const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
+
     return (
         <CartContext.Provider value={{
             cart,
