@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             whileHover={{ y: -8 }}
-            className="group relative bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[2rem] overflow-hidden hover:border-indigo-500/30 transition-all duration-500 h-full flex flex-col hover:shadow-premium"
+            className="group relative bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[2rem] overflow-hidden hover:border-[var(--accent-primary)]/30 transition-all duration-500 h-full flex flex-col hover:shadow-premium"
         >
             <Link to={`/product/${product.Product_id}`}>
                 {/* Image Container */}
@@ -46,7 +46,7 @@ const ProductCard = ({ product }) => {
             <div className="p-5 flex-1 flex flex-col">
                 <div className="mb-4 flex-1">
                     <Link to={`/product/${product.Product_id}`}>
-                        <h3 className="font-display font-medium text-lg text-[var(--text-primary)] mb-1 group-hover:text-indigo-400 transition-colors line-clamp-1">
+                        <h3 className="font-display font-medium text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-primary)] transition-colors line-clamp-1">
                             {product.product_name}
                         </h3>
                     </Link>
@@ -59,7 +59,7 @@ const ProductCard = ({ product }) => {
                     <div className={`flex flex-col ${lang === 'ar' ? 'items-end' : 'items-start'}`}>
                         <span className="text-xs text-[var(--text-muted)] font-medium uppercase tracking-wider">{t('priceLabel')}</span>
                         <span className="text-xl font-bold text-[var(--text-primary)]">
-                            <span className="text-indigo-400 text-sm align-top mr-0.5">$</span>
+                            <span className="text-[var(--accent-primary)] text-sm align-top mr-0.5">$</span>
                             {price.toFixed(2)}
                         </span>
                     </div>
@@ -68,7 +68,7 @@ const ProductCard = ({ product }) => {
                         disabled={!isAvailable}
                         onClick={() => addToCart(product)}
                         className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${isAvailable
-                            ? 'bg-[var(--bg-tertiary)] text-[var(--text-primary)] hover:bg-indigo-500 hover:text-white hover:shadow-lg hover:shadow-indigo-500/20'
+                            ? 'bg-[var(--bg-tertiary)] text-[var(--text-primary)] hover:bg-[var(--accent-primary)] hover:text-white hover:shadow-lg hover:shadow-[var(--accent-primary)]/20'
                             : 'bg-[var(--bg-tertiary)] text-[var(--text-muted)] cursor-not-allowed opacity-50'
                             }`}
                     >

@@ -37,14 +37,14 @@ const ProductPage = () => {
 
     if (loading) return (
         <div className="h-[50vh] flex items-center justify-center">
-            <Loader2 className="animate-spin text-indigo-500" size={32} />
+            <Loader2 className="animate-spin text-[var(--accent-primary)]" size={32} />
         </div>
     );
 
     if (!product) return (
-        <div className="h-[50vh] flex flex-col items-center justify-center gap-4 text-gray-400">
+        <div className="h-[50vh] flex flex-col items-center justify-center gap-4 text-[var(--text-muted)]">
             <p>{t('productNotFound')}</p>
-            <Link to="/" className="text-indigo-400 hover:underline">{t('backToStore')}</Link>
+            <Link to="/" className="text-[var(--accent-primary)] hover:underline">{t('backToStore')}</Link>
         </div>
     );
 
@@ -106,7 +106,7 @@ const ProductPage = () => {
                             <div className={`flex flex-col ${lang === 'ar' ? 'items-end' : 'items-start'}`}>
                                 <span className="text-sm text-[var(--text-muted)] block mb-1">{t('priceLabel')}</span>
                                 <span className="text-4xl font-bold text-[var(--text-primary)]">
-                                    <span className="text-indigo-400 text-2xl align-top mr-1">$</span>
+                                    <span className="text-[var(--accent-primary)] text-2xl align-top mr-1">$</span>
                                     {product.Price}
                                 </span>
                             </div>
@@ -128,8 +128,8 @@ const ProductPage = () => {
                                 disabled={!isAvailable}
                                 onClick={handleBuyNow}
                                 className={`flex-1 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${isAvailable
-                                    ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
-                                    : 'bg-[var(--bg-tertiary)] text-[var(--text-muted)] cursor-not-allowed border border-border-color] opacity-50'
+                                    ? 'bg-[var(--accent-primary)] hover:opacity-90 text-white shadow-lg shadow-[var(--accent-primary)]/20'
+                                    : 'bg-[var(--bg-tertiary)] text-[var(--text-muted)] cursor-not-allowed border border-[var(--border-color)] opacity-50'
                                     }`}
                             >
                                 <Zap size={24} />

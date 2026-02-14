@@ -151,8 +151,8 @@ const HomePage = () => {
             {/* Hero Section - Pro Redesign */}
             <section className="relative min-h-[75vh] flex items-center overflow-hidden pt-12 md:pt-20">
                 {/* Background Decoration */}
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-indigo-500/10 to-transparent -z-10" />
-                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -z-10" />
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[var(--accent-primary)]/10 to-transparent -z-10" />
+                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[var(--accent-secondary)]/10 rounded-full blur-3xl -z-10" />
 
                 <div className="max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <motion.div
@@ -160,13 +160,13 @@ const HomePage = () => {
                         animate={{ opacity: 1, x: 0 }}
                         className={`text-center lg:${lang === 'ar' ? 'text-right' : 'text-left'} space-y-8`}
                     >
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 font-bold text-sm tracking-wide uppercase">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 text-[var(--accent-primary)] font-bold text-sm tracking-wide uppercase">
                             <Sparkles size={16} />
                             {lang === 'ar' ? 'مجموعة 2026 الجديدة' : 'New 2026 Collection'}
                         </div>
 
                         <h1 className="text-5xl md:text-7xl font-display font-bold leading-tight text-[var(--text-primary)]">
-                            {t('premiumInventory')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">{lang === 'en' ? 'Stock' : ''}</span>
+                            {t('premiumInventory')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]">{lang === 'en' ? 'Stock' : ''}</span>
                             <br /> {t('collection')}
                         </h1>
 
@@ -175,7 +175,7 @@ const HomePage = () => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                            <button className="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all shadow-xl shadow-indigo-500/20 flex items-center justify-center gap-2">
+                            <button className="w-full sm:w-auto px-8 py-4 bg-[var(--accent-primary)] hover:opacity-90 text-white rounded-2xl font-bold transition-all shadow-xl shadow-[var(--accent-primary)]/20 flex items-center justify-center gap-2">
                                 {lang === 'ar' ? 'تسوق الآن' : 'Shop Collections'}
                                 <ArrowRight size={20} className={lang === 'ar' ? 'rotate-180' : ''} />
                             </button>
@@ -232,11 +232,11 @@ const HomePage = () => {
                                 key={cat.name}
                                 onClick={() => setSelectedCategory(cat.name)}
                                 className={`flex flex-col items-center gap-3 p-4 md:p-6 rounded-3xl transition-all duration-300 min-w-[100px] md:min-w-[140px] ${selectedCategory === cat.name
-                                    ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-500/20 scale-105'
-                                    : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-color)] hover:border-indigo-500/50 hover:text-[var(--text-primary)]'
+                                    ? 'bg-[var(--accent-primary)] text-white shadow-xl shadow-[var(--accent-primary)]/20 scale-105'
+                                    : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-color)] hover:border-[var(--accent-primary)]/50 hover:text-[var(--text-primary)]'
                                     }`}
                             >
-                                <div className={`p-3 rounded-2xl ${selectedCategory === cat.name ? 'bg-white/10' : 'bg-[var(--bg-tertiary)] group-hover:bg-indigo-500/10'}`}>
+                                <div className={`p-3 rounded-2xl ${selectedCategory === cat.name ? 'bg-white/10' : 'bg-[var(--bg-tertiary)] group-hover:bg-[var(--accent-primary)]/10'}`}>
                                     {cat.icon}
                                 </div>
                                 <span className="font-bold text-sm md:text-base">{cat.label}</span>
@@ -258,14 +258,14 @@ const HomePage = () => {
                         <PromoBanner
                             title={lang === 'ar' ? 'وفر حتى 50% على الهواتف' : 'Save up to 50% on Phones'}
                             subtitle={lang === 'ar' ? 'عرض خاص' : 'Special Offer'}
-                            color="blue"
+                            color="theme"
                             image="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800"
                         />
 
                         <PromoBanner
                             title={lang === 'ar' ? 'إكسسوارات بريميوم لجهازك' : 'Premium Accessories for Your Device'}
                             subtitle={lang === 'ar' ? 'الجديد وصل' : 'Just in'}
-                            color="rose"
+                            color="bronze"
                             reverse={true}
                             image="https://images.unsplash.com/photo-1546868891-d5b0ba2ad3d5?auto=format&fit=crop&q=80&w=800"
                         />
@@ -298,7 +298,7 @@ const HomePage = () => {
 
                             {loading ? (
                                 <div className="flex flex-col items-center justify-center py-20 gap-4">
-                                    <Loader2 className="animate-spin text-indigo-500" size={40} />
+                                    <Loader2 className="animate-spin text-[var(--accent-primary)]" size={40} />
                                     <p className="text-[var(--text-secondary)] font-medium">{t('loadingStore')}</p>
                                 </div>
                             ) : (
@@ -325,7 +325,7 @@ const HomePage = () => {
                                             </p>
                                             <button
                                                 onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
-                                                className="text-indigo-500 font-bold hover:underline"
+                                                className="text-[var(--accent-primary)] font-bold hover:underline"
                                             >
                                                 {lang === 'ar' ? 'مسح كل الفلاتر' : 'Clear all filters'}
                                             </button>

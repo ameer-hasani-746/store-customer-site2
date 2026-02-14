@@ -30,9 +30,9 @@ const SortDropdown = ({ sortBy, setSortBy }) => {
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-3 px-6 py-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl hover:border-indigo-500/50 transition-all min-w-[240px] text-[var(--text-primary)] shadow-sm"
+                className="flex items-center gap-3 px-6 py-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl hover:border-[var(--accent-primary)]/50 transition-all min-w-[240px] text-[var(--text-primary)] shadow-sm"
             >
-                <div className="text-indigo-400">
+                <div className="text-[var(--accent-primary)]">
                     <BarChart size={20} />
                 </div>
                 <span className={`flex-1 text-sm font-bold ${lang === 'ar' ? 'text-right' : 'text-left'}`}>
@@ -63,11 +63,11 @@ const SortDropdown = ({ sortBy, setSortBy }) => {
                                         setIsOpen(false);
                                     }}
                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${sortBy === option.id
-                                        ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20'
+                                        ? 'bg-[var(--accent-primary)] text-white shadow-lg shadow-[var(--accent-primary)]/20'
                                         : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'
                                         }`}
                                 >
-                                    <span className={sortBy === option.id ? 'text-white' : 'text-indigo-400'}>
+                                    <span className={sortBy === option.id ? 'text-white' : 'text-[var(--accent-primary)]'}>
                                         {option.icon}
                                     </span>
                                     <span className="text-sm font-bold">{option.label}</span>

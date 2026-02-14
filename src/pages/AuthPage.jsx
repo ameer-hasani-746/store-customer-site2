@@ -56,7 +56,7 @@ const AuthPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4 selection:bg-indigo-500/30">
+        <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4 selection:bg-[var(--accent-primary)]/30">
             {/* Theme & Language Controls */}
             <div className="fixed top-6 right-6 left-6 flex justify-end gap-3 z-50">
                 <LanguageSelector />
@@ -70,8 +70,8 @@ const AuthPage = () => {
             </div>
             {/* Background Decoration */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/10 rounded-full blur-[120px]" />
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[var(--accent-primary)]/10 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[var(--accent-secondary)]/10 rounded-full blur-[120px]" />
             </div>
 
             <motion.div
@@ -85,7 +85,7 @@ const AuthPage = () => {
                         <motion.div
                             initial={{ scale: 0.8 }}
                             animate={{ scale: 1 }}
-                            className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl mx-auto flex items-center justify-center text-white font-bold text-3xl shadow-lg shadow-indigo-500/20 mb-6"
+                            className="w-16 h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-2xl mx-auto flex items-center justify-center text-white font-bold text-3xl shadow-lg shadow-[var(--accent-primary)]/20 mb-6"
                         >
                             S
                         </motion.div>
@@ -129,14 +129,14 @@ const AuthPage = () => {
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-[var(--text-secondary)] ml-1">{t('emailLabel')}</label>
                             <div className="relative group">
-                                <Mail className={`absolute ${lang === 'ar' ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-indigo-400 transition-colors`} size={18} />
+                                <Mail className={`absolute ${lang === 'ar' ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-[var(--accent-primary)] transition-colors`} size={18} />
                                 <input
                                     required
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="name@company.com"
-                                    className={`w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-4 ${lang === 'ar' ? 'pr-12 pl-4 text-right' : 'pl-12 pr-4'} text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all`}
+                                    className={`w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-4 ${lang === 'ar' ? 'pr-12 pl-4 text-right' : 'pl-12 pr-4'} text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)]/50 focus:ring-1 focus:ring-[var(--accent-primary)]/50 transition-all`}
                                 />
                             </div>
                         </div>
@@ -149,21 +149,21 @@ const AuthPage = () => {
                                         <button
                                             type="button"
                                             onClick={() => setIsMagicLink(true)}
-                                            className="text-xs text-indigo-400 hover:text-indigo-300 font-medium tracking-tight"
+                                            className="text-xs text-[var(--accent-primary)] hover:opacity-80 font-medium tracking-tight"
                                         >
                                             {t('useMagicLink')}
                                         </button>
                                     )}
                                 </div>
                                 <div className="relative group">
-                                    <Lock className={`absolute ${lang === 'ar' ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-indigo-400 transition-colors`} size={18} />
+                                    <Lock className={`absolute ${lang === 'ar' ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-[var(--accent-primary)] transition-colors`} size={18} />
                                     <input
                                         required
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="••••••••"
-                                        className={`w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-4 ${lang === 'ar' ? 'pr-12 pl-4 text-right' : 'pl-12 pr-4'} text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all`}
+                                        className={`w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-4 ${lang === 'ar' ? 'pr-12 pl-4 text-right' : 'pl-12 pr-4'} text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)]/50 focus:ring-1 focus:ring-[var(--accent-primary)]/50 transition-all`}
                                     />
                                 </div>
                             </div>
@@ -182,7 +182,7 @@ const AuthPage = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed group h-14"
+                            className="w-full py-4 bg-[var(--accent-primary)] hover:opacity-90 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-[var(--accent-primary)]/20 disabled:opacity-50 disabled:cursor-not-allowed group h-14"
                         >
                             {loading ? (
                                 <Loader2 className="animate-spin" size={20} />
@@ -206,13 +206,13 @@ const AuthPage = () => {
                         >
                             {isLogin ? (
                                 <>
-                                    <UserPlus size={18} className="text-indigo-400" />
-                                    {t('newHere')} <span className="text-indigo-400 underline underline-offset-4">{t('createAccount')}</span>
+                                    <UserPlus size={18} className="text-[var(--accent-primary)]" />
+                                    {t('newHere')} <span className="text-[var(--accent-primary)] underline underline-offset-4">{t('createAccount')}</span>
                                 </>
                             ) : (
                                 <>
-                                    <LogIn size={18} className="text-indigo-400" />
-                                    {t('alreadyHaveAccount')} <span className="text-indigo-400 underline underline-offset-4">{t('signIn')}</span>
+                                    <LogIn size={18} className="text-[var(--accent-primary)]" />
+                                    {t('alreadyHaveAccount')} <span className="text-[var(--accent-primary)] underline underline-offset-4">{t('signIn')}</span>
                                 </>
                             )}
                         </button>

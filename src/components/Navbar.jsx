@@ -51,24 +51,24 @@ const Navbar = () => {
                         }}
                         className="flex items-center gap-2 group relative z-50 cursor-pointer"
                     >
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-indigo-500/20 group-hover:shadow-indigo-500/40 transition-all">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-[var(--accent-primary)]/20 group-hover:shadow-[var(--accent-primary)]/40 transition-all">
                             S
                         </div>
                         <span className="font-display font-bold text-xl text-[var(--text-primary)] tracking-tight">
-                            Store<span className="text-indigo-400">Dash</span>
+                            Store<span className="text-[var(--accent-primary)]">Dash</span>
                         </span>
                     </Link>
 
                     {/* Desktop Search */}
                     <div className="hidden md:flex flex-1 max-w-lg mx-8">
                         <form onSubmit={handleSearch} className="relative w-full group">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-indigo-400 transition-colors" size={18} />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-[var(--accent-primary)] transition-colors" size={18} />
                             <input
                                 type="text"
                                 placeholder={t('searchPlaceholder')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-2.5 pl-10 pr-4 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all"
+                                className="w-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-xl py-2.5 pl-10 pr-4 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)]/50 focus:ring-1 focus:ring-[var(--accent-primary)]/50 transition-all"
                             />
                         </form>
                     </div>
@@ -91,14 +91,14 @@ const Navbar = () => {
                             >
                                 <ShoppingCart size={22} />
                                 {cartCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-indigo-500 rounded-full text-[10px] flex items-center justify-center text-white font-bold">
+                                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--accent-primary)] rounded-full text-[10px] flex items-center justify-center text-white font-bold">
                                         {cartCount}
                                     </span>
                                 )}
                             </button>
 
                             <div className="flex items-center gap-3 ml-2 group cursor-pointer">
-                                <div className="w-9 h-9 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                                <div className="w-9 h-9 rounded-full bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 flex items-center justify-center text-[var(--accent-primary)]">
                                     <User size={18} />
                                 </div>
                                 <button

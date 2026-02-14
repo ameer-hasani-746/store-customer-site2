@@ -7,7 +7,7 @@ const FeaturesBar = () => {
 
     const features = [
         {
-            icon: <Truck className="text-indigo-500" size={24} />,
+            icon: <Truck className="text-[var(--accent-primary)]" size={24} />,
             title: lang === 'ar' ? 'شحن سريع' : 'Fast Shipping',
             desc: lang === 'ar' ? 'توصيل في غضون 2-4 أيام' : 'Delivery within 2-4 days'
         },
@@ -22,7 +22,7 @@ const FeaturesBar = () => {
             desc: lang === 'ar' ? 'نحن هنا لمساعدتك دائماً' : 'Always here to help you'
         },
         {
-            icon: <CreditCard className="text-purple-500" size={24} />,
+            icon: <CreditCard className="text-[var(--accent-secondary)]" size={24} />,
             title: lang === 'ar' ? 'دفع آمن' : 'Secure Payment',
             desc: lang === 'ar' ? 'طرق دفع مشفرة وآمنة' : 'Encrypted & secure payments'
         }
@@ -34,7 +34,7 @@ const FeaturesBar = () => {
                 {features.map((feature, index) => (
                     <div
                         key={index}
-                        className="p-6 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-indigo-500/30 transition-all hover:shadow-xl group"
+                        className="p-6 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[var(--accent-primary)]/30 transition-all hover:shadow-xl group"
                     >
                         <div className="mb-4 p-3 rounded-xl bg-[var(--bg-tertiary)] w-fit group-hover:scale-110 transition-transform">
                             {feature.icon}

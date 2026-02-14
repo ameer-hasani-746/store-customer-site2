@@ -63,7 +63,7 @@ const CartDrawer = () => {
                         {/* Header */}
                         <div className="p-6 border-b border-[var(--border-color)] flex items-center justify-between">
                             <h2 className="text-xl font-display font-bold text-[var(--text-primary)] flex items-center gap-2">
-                                <ShoppingBag className="text-indigo-400" />
+                                <ShoppingBag className="text-[var(--accent-primary)]" />
                                 {t('yourBag')}
                                 <span className={`text-sm font-normal text-[var(--text-secondary)] ${lang === 'ar' ? 'mr-2' : 'ml-2'}`}>({cart.length} {t('items')})</span>
                             </h2>
@@ -95,7 +95,7 @@ const CartDrawer = () => {
                                     <p className="text-lg text-[var(--text-primary)]">{t('emptyCart')}</p>
                                     <button
                                         onClick={() => setIsDrawerOpen(false)}
-                                        className="text-indigo-400 hover:text-indigo-300 text-sm font-medium"
+                                        className="text-[var(--accent-primary)] hover:opacity-80 text-sm font-medium"
                                     >
                                         {t('startShopping')}
                                     </button>
@@ -156,7 +156,7 @@ const CartDrawer = () => {
                                 <button
                                     onClick={handleCheckout}
                                     disabled={isCheckingOut}
-                                    className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-500/20"
+                                    className="w-full py-4 bg-[var(--accent-primary)] hover:opacity-90 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[var(--accent-primary)]/20"
                                 >
                                     {isCheckingOut ? (
                                         <>

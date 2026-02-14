@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
-const PromoBanner = ({ title, subtitle, image, color = "indigo", reverse = false }) => {
+const PromoBanner = ({ title, subtitle, image, color = "theme", reverse = false }) => {
     const { lang } = useLanguage();
 
     const colorClasses = {
-        indigo: "from-indigo-600 to-purple-700",
-        blue: "from-blue-600 to-cyan-700",
-        rose: "from-rose-600 to-pink-700",
-        emerald: "from-emerald-600 to-teal-700"
+        theme: "from-[var(--accent-primary)] to-[var(--accent-secondary)]",
+        slate: "from-slate-700 to-slate-900",
+        bronze: "from-[#B38B67] to-[#8C6D51]",
+        charcoal: "from-[#2D2D2D] to-[#1A1A1A]"
     };
 
     return (

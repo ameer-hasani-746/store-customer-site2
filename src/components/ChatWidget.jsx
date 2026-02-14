@@ -74,7 +74,7 @@ const ChatWidget = () => {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsOpen(true)}
-                className={`fixed bottom-6 ${lang === 'ar' ? 'left-6' : 'right-6'} w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg shadow-indigo-600/30 hover:scale-110 transition-transform z-40 ${isOpen ? 'hidden' : 'flex'}`}
+                className={`fixed bottom-6 ${lang === 'ar' ? 'left-6' : 'right-6'} w-14 h-14 bg-[var(--accent-primary)] rounded-full flex items-center justify-center shadow-lg shadow-[var(--accent-primary)]/30 hover:scale-110 transition-transform z-40 ${isOpen ? 'hidden' : 'flex'}`}
             >
                 <MessageSquare className="text-white" size={24} />
             </button>
@@ -111,7 +111,7 @@ const ChatWidget = () => {
                                 >
                                     <div
                                         className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed ${msg.sender === 'user'
-                                            ? 'bg-indigo-600 text-white rounded-br-none'
+                                            ? 'bg-[var(--accent-primary)] text-white rounded-br-none'
                                             : 'bg-[var(--bg-tertiary)] text-[var(--text-primary)] border border-[var(--border-color)] rounded-bl-none'
                                             } ${msg.isError ? 'border-red-500/50 text-red-200' : ''}`}
                                     >
@@ -122,7 +122,7 @@ const ChatWidget = () => {
                             {isTyping && (
                                 <div className="flex justify-start">
                                     <div className="bg-[var(--bg-tertiary)] p-3 rounded-2xl rounded-bl-none border border-[var(--border-color)]">
-                                        <Loader2 size={16} className="animate-spin text-indigo-400" />
+                                        <Loader2 size={16} className="animate-spin text-[var(--accent-primary)]" />
                                     </div>
                                 </div>
                             )}
@@ -137,12 +137,12 @@ const ChatWidget = () => {
                                     value={inputText}
                                     onChange={(e) => setInputText(e.target.value)}
                                     placeholder={t('chatPlaceholder')}
-                                    className={`w-full bg-[var(--bg-primary)] text-[var(--text-primary)] rounded-xl py-3 ${lang === 'ar' ? 'pr-4 pl-12' : 'pl-4 pr-12'} text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500/50 border border-[var(--border-color)] placeholder-[var(--text-muted)]`}
+                                    className={`w-full bg-[var(--bg-primary)] text-[var(--text-primary)] rounded-xl py-3 ${lang === 'ar' ? 'pr-4 pl-12' : 'pl-4 pr-12'} text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent-primary)]/50 border border-[var(--border-color)] placeholder-[var(--text-muted)]`}
                                 />
                                 <button
                                     type="submit"
                                     disabled={!inputText.trim() || isTyping}
-                                    className={`absolute ${lang === 'ar' ? 'left-2' : 'right-2'} top-1/2 -translate-y-1/2 p-2 text-indigo-400 hover:text-indigo-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
+                                    className={`absolute ${lang === 'ar' ? 'left-2' : 'right-2'} top-1/2 -translate-y-1/2 p-2 text-[var(--accent-primary)] hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
                                 >
                                     <Send size={18} className={lang === 'ar' ? 'rotate-180' : ''} />
                                 </button>

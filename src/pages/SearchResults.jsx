@@ -74,7 +74,7 @@ const SearchResults = () => {
             <div className="mb-12">
                 <Link
                     to="/"
-                    className="inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-indigo-400 mb-6 transition-colors"
+                    className="inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--accent-primary)] mb-6 transition-colors"
                 >
                     <ArrowLeft size={18} className={lang === 'ar' ? 'rotate-180' : ''} />
                     {lang === 'ar' ? 'العودة للمتجر' : 'Back to Store'}
@@ -84,7 +84,7 @@ const SearchResults = () => {
                     <div>
                         <h1 className="text-4xl font-display font-bold text-[var(--text-primary)]">
                             {lang === 'ar' ? 'نتائج البحث عن' : 'Search results for'}:
-                            <span className="text-indigo-500 ml-2">"{query}"</span>
+                            <span className="text-[var(--accent-primary)] ml-2">"{query}"</span>
                         </h1>
                         <p className="text-[var(--text-secondary)] mt-2">
                             {products.length} {lang === 'ar' ? 'منتج تم العثور عليه' : 'products found'}
@@ -100,7 +100,7 @@ const SearchResults = () => {
 
             {loading ? (
                 <div className="flex flex-col items-center justify-center py-20 gap-4">
-                    <Loader2 className="animate-spin text-indigo-500" size={40} />
+                    <Loader2 className="animate-spin text-[var(--accent-primary)]" size={40} />
                     <p className="text-[var(--text-secondary)] font-medium">{t('loadingStore')}</p>
                 </div>
             ) : (
@@ -126,7 +126,7 @@ const SearchResults = () => {
                             </p>
                             <Link
                                 to="/"
-                                className="inline-block px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all shadow-xl shadow-indigo-500/20"
+                                className="inline-block px-8 py-4 bg-[var(--accent-primary)] hover:opacity-90 text-white rounded-2xl font-bold transition-all shadow-xl shadow-[var(--accent-primary)]/20"
                             >
                                 {lang === 'ar' ? 'تصفح كل المنتجات' : 'Browse All Products'}
                             </Link>

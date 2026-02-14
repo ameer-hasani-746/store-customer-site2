@@ -8,7 +8,7 @@ import Footer from './Footer';
 
 const Layout = () => {
     return (
-        <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans selection:bg-indigo-500/30 transition-colors duration-300">
+        <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans selection:bg-[var(--accent-primary)]/30 transition-colors duration-300">
             <Navbar />
             <CartDrawer />
             <main className="pt-20 min-h-[calc(100vh-80px)]">

@@ -56,7 +56,7 @@ const Footer = () => {
                     </p>
                     <div className="flex items-center gap-4">
                         {[Facebook, Twitter, Instagram, Github].map((Icon, i) => (
-                            <a key={i} href="#" className="p-2 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-indigo-500 hover:bg-indigo-500/10 transition-all">
+                            <a key={i} href="#" className="p-2 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/10 transition-all">
                                 <Icon size={20} />
                             </a>
                         ))}
@@ -77,7 +77,7 @@ const Footer = () => {
                             <li key={i}>
                                 <button
                                     onClick={() => scrollToSection(link.id)}
-                                    className="hover:text-indigo-500 transition-colors text-left w-full"
+                                    className="hover:text-[var(--accent-primary)] transition-colors text-left w-full"
                                 >
                                     {lang === 'ar' ? t(link.name.toLowerCase().replace(' ', '')) || link.name : link.name}
                                 </button>
@@ -96,7 +96,7 @@ const Footer = () => {
                             <li key={i}>
                                 <button
                                     onClick={() => setActiveModal(link)}
-                                    className="hover:text-indigo-500 transition-colors text-left w-full"
+                                    className="hover:text-[var(--accent-primary)] transition-colors text-left w-full"
                                 >
                                     {supportContent[link].title}
                                 </button>
@@ -112,15 +112,15 @@ const Footer = () => {
                     </h3>
                     <ul className="space-y-4">
                         <li className="flex items-center gap-3 text-[var(--text-secondary)]">
-                            <Mail size={18} className="text-indigo-500" />
+                            <Mail size={18} className="text-[var(--accent-primary)]" />
                             <span>support@store.com</span>
                         </li>
                         <li className="flex items-center gap-3 text-[var(--text-secondary)]">
-                            <Phone size={18} className="text-indigo-500" />
+                            <Phone size={18} className="text-[var(--accent-primary)]" />
                             <span>+1 234 567 890</span>
                         </li>
                         <li className="flex items-center gap-3 text-[var(--text-secondary)]">
-                            <MapPin size={18} className="text-indigo-500" />
+                            <MapPin size={18} className="text-[var(--accent-primary)]" />
                             <span>{lang === 'ar' ? 'دبي، الإمارات العربية المتحدة' : 'Dubai, UAE'}</span>
                         </li>
                     </ul>
@@ -166,12 +166,12 @@ const Footer = () => {
                                         <X size={20} />
                                     </button>
                                 </div>
-                                <div className="prose prose-indigo max-w-none text-[var(--text-secondary)] leading-relaxed">
+                                <div className="prose prose-stone max-w-none text-[var(--text-secondary)] leading-relaxed">
                                     <p className="text-lg">
                                         {supportContent[activeModal].content}
                                     </p>
-                                    <div className="mt-8 p-6 rounded-2xl bg-indigo-500/5 border border-indigo-500/10">
-                                        <p className="text-sm font-medium text-indigo-400">
+                                    <div className="mt-8 p-6 rounded-2xl bg-[var(--accent-primary)]/5 border border-[var(--accent-primary)]/10">
+                                        <p className="text-sm font-medium text-[var(--accent-primary)]">
                                             {lang === 'ar'
                                                 ? 'للمزيد من المعلومات، يرجى التواصل مع فريق الدعم لدينا.'
                                                 : 'For more information, please contact our support team.'}
